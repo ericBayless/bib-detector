@@ -1,0 +1,13 @@
+# Directories to ignore
+./Data/Bibs/
+./Data/Crops/
+./Data/Demo-Images/
+./Data/Nums/
+./Data/RBNR/
+./Data/SVHN/
+./Data/test_annotated/
+
+# Files to ignor
+./Data/YOLO/yolov3.weights
+./Data/YOLO/yolov4.weights
+./Data/YOLO/RBNR1*
