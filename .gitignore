@@ -6,7 +6,8 @@ Data/Nums/
 Data/RBNR/
 Data/SVHN/
 Data/test_annotated/
-Data/YOLO/
+Data/YOLO/standard/
+Data/YOLO/unused/
 
 # Files to ignore
 Data/output.mp4
