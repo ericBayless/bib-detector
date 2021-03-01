@@ -6,9 +6,4 @@
 ./Data/RBNR/
 ./Data/SVHN/
 ./Data/test_annotated/
-./Data/
-
-# Files to ignor
-./Data/YOLO/yolov3.weights
-./Data/YOLO/yolov4.weights
-./Data/YOLO/RBNR1*
+./Data/YOLO/
