@@ -8,6 +8,7 @@ Data/SVHN/
 Data/test_annotated/
 Data/YOLO/standard/
 Data/YOLO/unused/
+*/__pycache__/
 
 # Files to ignore
 Data/output.mp4
