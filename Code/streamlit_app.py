@@ -3,6 +3,7 @@ import cv2 as cv
 import numpy as np
 import streamlit as st
 import pandas as pd
+import tempfile
 
 import time
 
@@ -37,59 +38,94 @@ if mode == 'Image':
             img_loc = st.empty()
             img_loc.image(img, channels='BGR')
 
-            if(button_loc.button('Detect')):
-
+            if button_loc.button('Detect'):
                 # get bib prediction
                 start = time.time() # start timing prediction
-                output = Detector.get_bibs(img)
+                output = Detector.get_rbns(img)
                 end = time.time() # end timing prediction
 
-                for detection in output:
-                    # draw bouding box on original image
-                    (x, y, w, h) = detection[1]
-                    img = cv.rectangle(img,(x,y),(x+w,y+h),color,5)
-                    # add bib number to original image
-                    rbn = detection[0]
-                    cv.putText(img, str(rbn), (x, y - 25), cv.FONT_HERSHEY_SIMPLEX, 2, color, 4)
+                # annotate image
+                if output != None:
+                    text_loc.text(f'Detection time: {round(end - start, 2)} seconds')
+                    for detection in output:
+                        img = Detector.annotate(img, detection, color)
+                else:
+                    text_loc.text("No RBN's Detected")
 
-                #display detection time and annotated image
-                text_loc.text(f'Detection time: {round(end - start, 2)} seconds')
+                #display annotated image
                 img_loc.image(img, channels='BGR')
 else:
     if mode == 'Demo':
-        video_file = open('../Data/bib_detector_demo_edit.mp4', 'rb')
+        video_path = '../Data/bib_detector_demo_edit.mp4'
+        video_file = open(video_path, 'rb')
+        video_bytes = video_file.read()
+
     elif mode == 'Video':
-        video_file = st.file_uploader(label='Video for analysis:',
+        video_bytes = st.file_uploader(label='Video for analysis:',
         type=['mp4'])
+        # Use temp file for OpenCV with user uploaded video
+        # from https://discuss.streamlit.io/t/how-to-access-uploaded-video-in-streamlit-by-open-cv/5831/4
+        if video_bytes == None:
+            st.stop()
+        else:
+            tfile = tempfile.NamedTemporaryFile(delete=False)
+            tfile.write(video_bytes.read())
+            video_path = tfile.name
 
     button_loc = st.empty()
     text_loc = st.empty()
     video_loc = st.empty()
 
-    if video_file != None:
+    video_loc.video(video_bytes)
+
+    if button_loc.button('Detect'):
+        # open video for detection
+        cap = cv.VideoCapture(video_path)
+        cap.set(cv.CAP_PROP_FPS, 25)
+        # set ouput specifications
+        fourcc = cv.VideoWriter_fourcc('m','p','4','v')
+        width = int(cap.get(cv.CAP_PROP_FRAME_WIDTH))
+        height = int(cap.get(cv.CAP_PROP_FRAME_HEIGHT))
+        num_frames = cap.get(cv.CAP_PROP_FRAME_COUNT)
+        vid_out = cv.VideoWriter('../Data/output.mp4',fourcc, 25.0, (width,height))
+
+        frames_complete = 0
+        rank = []
+        #rbn_count = 0
+        prev_rbn = None
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+            # get bib prediction
+            output = Detector.get_rbns(frame, single=True)
+
+            # annotate image
+            if output != None:
+                frame = Detector.annotate(frame, output[0], color)
+
+                if prev_rbn == None or prev_rbn != output[0][0]:
+                    rbn_count = 0
+                    prev_rbn = output[0][0]
+                else:
+                    rbn_count += 1
+                
+                if rbn_count >= 25 and prev_rbn not in rank:
+                    rank.append(prev_rbn)
+
+            #save annotated frame
+            vid_out.write(frame)
+            frames_complete += 1
+            video_loc.progress(frames_complete / num_frames)
+
+        cap.release()
+        vid_out.release()
+
+        button_loc.text("Complete.  Press play to see annotated video.")
+        video_file = open('../Data/output.mp4', 'rb')
         video_bytes = video_file.read()
         video_loc.video(video_bytes)
 
-        if(button_loc.button('Detect')):
-            cap = cv.VideoCapture('../Data/bib_detector_demo_edit.mp4')
-            cap.set(cv.CAP_PROP_FPS, 25)
-            while True:
-                ret, frame = cap.read()
-                if not ret:
-                    break
-                # get bib prediction
-                start = time.time() # start timing prediction
-                output = Detector.get_bibs(frame, single=True)
-                end = time.time() # end timing prediction
-
-                for detection in output:
-                    # draw bouding box on original image
-                    (x, y, w, h) = detection[1]
-                    img = cv.rectangle(frame,(x,y),(x+w,y+h),color,5)
-                    # add bib number to original image
-                    rbn = detection[0]
-                    cv.putText(frame, str(rbn), (x, y - 25), cv.FONT_HERSHEY_SIMPLEX, 2, color, 4)
-
-                #display detection time and annotated image
-                text_loc.text(f'Detection time: {round(end - start, 2)} seconds')
-                video_loc.image(frame, channels='BGR')
+        st.header("Rank Order")
+        for i, rbn in enumerate(rank):
+            st.subheader(f'{i+1}.  {rbn}')

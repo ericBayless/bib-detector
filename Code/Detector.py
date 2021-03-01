@@ -82,7 +82,7 @@ class Detector:
         return cls_and_box
 
 
-def get_bibs(img, single=False):
+def get_rbns(img, single=False):
 
     # Instantiate detectors
     bd = Detector(bd_configPath, bd_weightsPath, bd_classes)
@@ -92,34 +92,47 @@ def get_bibs(img, single=False):
     bib_detections = bd.detect(img, 0.25)
 
 
+    if len(bib_detections) > 0:
+        for obj in bib_detections:
+            # crop out detected bib
+            (x, y, w, h) = obj[1]
+            obj.append(w * h)
+            crop_img = img[y:y+h, x:x+w]
+            
+            # detect numbers on bib
+            num_detections = nr.detect(crop_img, 0.5)
+            bib_digit_loc = []
+            if len(num_detections) > 0:
+                # get digits and locations
+                for digit in num_detections:
+                    (d_x, d_y, d_w, d_h) = digit[1]
+                    bib_digit_loc.append((d_x, str(digit[0])))
 
-    for obj in bib_detections:
-        # crop out detected bib
-        (x, y, w, h) = obj[1]
-        obj.append(w * h)
-        crop_img = img[y:y+h, x:x+w]
-        
-        # detect numbers on bib
-        num_detections = nr.detect(crop_img, 0.5)
-        bib_digit_loc = []
-        if len(num_detections) > 0:
-            # get digits and locations
-            for digit in num_detections:
-                (d_x, d_y, d_w, d_h) = digit[1]
-                bib_digit_loc.append((d_x, str(digit[0])))
+                # sort detected numbers L->R and put together
+                bib_digit_loc.sort()
+                rbn = int(''.join([i[1] for i in bib_digit_loc]))
+                obj.append(rbn)
+            else:
+                obj.append(0) # bib detection but no digit detection
 
-            # sort detected numbers L->R and put together
-            bib_digit_loc.sort()
-            rbn = int(''.join([i[1] for i in bib_digit_loc]))
-            obj.append(rbn)
+        if single: 
+            if len(bib_detections) > 1:
+                bib_detections.sort(key=lambda x: x[2], reverse=True)
+            return [[bib_detections[0][3], bib_detections[0][1]]]
         else:
-            obj.append(0)
+            final_bibs = []
+            for bib in bib_detections:
+                final_bibs.append([bib[3], bib[1]])
+            return final_bibs
+    else: return None
 
-    if single:
-        bib_detections.sort(key=lambda x: x[2], reverse=True)
-        return [bib_detections[0][3], bib_detections[0][1]]
-    else:
-        final_bibs = []
-        for bib in bib_detections:
-            final_bibs.append([bib[3], bib[1]])
-        return final_bibs
+
+def annotate(img, annot, color):
+    # draw bouding box on original image
+    (x, y, w, h) = annot[1]
+    annot_img = cv.rectangle(img,(x,y),(x+w,y+h),color,5)
+    # add bib number to original image
+    rbn = annot[0]
+    cv.putText(annot_img, str(rbn), (x, y - 25), cv.FONT_HERSHEY_SIMPLEX, 2, color, 4)
+
+    return annot_img
