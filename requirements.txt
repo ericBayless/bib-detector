@@ -1,0 +1,30 @@
+h5py==2.10.0
+imgaug==0.4.0
+ipykernel @ file:///Users/runner/miniforge3/conda-bld/ipykernel_1611268341459/work/dist/ipykernel-5.4.3-py3-none-any.whl
+ipython @ file:///Users/runner/miniforge3/conda-bld/ipython_1612487013094/work
+ipython-genutils==0.2.0
+ipywidgets==7.6.3
+jedi @ file:///Users/runner/miniforge3/conda-bld/jedi_1610146833874/work
+Jinja2 @ file:///home/conda/feedstock_root/build_artifacts/jinja2_1612119311452/work
+json5 @ file:///home/conda/feedstock_root/build_artifacts/json5_1600692310011/work
+jsonschema @ file:///home/conda/feedstock_root/build_artifacts/jsonschema_1602551949684/work
+jupyter-client @ file:///home/conda/feedstock_root/build_artifacts/jupyter_client_1610375432619/work
+jupyter-core @ file:///Users/runner/miniforge3/conda-bld/jupyter_core_1612125286065/work
+jupyter-server @ file:///Users/runner/miniforge3/conda-bld/jupyter_server_1612496732690/work
+jupyterlab @ file:///home/conda/feedstock_root/build_artifacts/jupyterlab_1612296988614/work
+jupyterlab-pygments @ file:///home/conda/feedstock_root/build_artifacts/jupyterlab_pygments_1601375948261/work
+jupyterlab-server @ file:///home/conda/feedstock_root/build_artifacts/jupyterlab_server_1612473182866/work
+jupyterlab-widgets==1.0.0
+Keras-Preprocessing==1.1.2
+matplotlib @ file:///opt/concourse/worker/volumes/live/f7797860-f8aa-410c-4a56-72315954816b/volume/matplotlib-base_1603378002957/work
+numpy @ file:///opt/concourse/worker/volumes/live/5572694e-967a-4c0c-52cf-b53d43e72de9/volume/numpy_and_numpy_base_1603491881791/work
+opencv-python==4.5.1.48
+pandas==1.2.1
+pyarrow==3.0.0
+scikit-image==0.18.1
+scipy @ file:///Users/runner/miniforge3/conda-bld/scipy_1612531727878/work
+streamlit==0.77.0
+tensorboard==2.4.1
+tensorboard-plugin-wit==1.8.0
+tensorflow==2.4.1
+tensorflow-estimator==2.4.0
