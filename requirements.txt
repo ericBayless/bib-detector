@@ -8,5 +8,5 @@ opencv==4.5.1
 opencv-python==4.5.1.48
 pandas==1.2.1
 pyarrow==3.0.0
-scipy=1.6.0
+scipy==1.6.0
 streamlit==0.77.0
