@@ -7,3 +7,6 @@ Data/RBNR/
 Data/SVHN/
 Data/test_annotated/
 Data/YOLO/
+
+# Files to ignore
+Data/output.mp4
