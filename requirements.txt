@@ -1,14 +1,9 @@
 h5py==2.10.0
 imgaug==0.4.0
-ipykernel-5.4.3-py3-none-any.whl
 ipython-genutils==0.2.0
 ipywidgets==7.6.3
-jupyterlab_pygments_1601375948261/work
-jupyterlab_server_1612473182866/work
 jupyterlab-widgets==1.0.0
 Keras-Preprocessing==1.1.2
-matplotlib-base_1603378002957/work
-numpy_and_numpy_base_1603491881791/work
 opencv-python==4.5.1.48
 pandas==1.2.1
 pyarrow==3.0.0
