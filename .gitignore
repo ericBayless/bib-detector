@@ -1,9 +1,9 @@
 # Directories to ignore
-./Data/Bibs/
-./Data/Crops/
-./Data/Demo-Images/
-./Data/Nums/
-./Data/RBNR/
-./Data/SVHN/
-./Data/test_annotated/
-./Data/YOLO/
+Data/Bibs/
+Data/Crops/
+Data/Demo-Images/
+Data/Nums/
+Data/RBNR/
+Data/SVHN/
+Data/test_annotated/
+Data/YOLO/
