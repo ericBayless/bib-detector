@@ -40,13 +40,11 @@ if mode == 'Image':
 
             if button_loc.button('Detect'):
                 # get bib prediction
-                start = time.time() # start timing prediction
                 output = Detector.get_rbns(img)
-                end = time.time() # end timing prediction
 
                 # annotate image
                 if output != None:
-                    text_loc.text(f'Detection time: {round(end - start, 2)} seconds')
+                    text_loc.text(f"Detected {len(output)} RBN(s)")
                     for detection in output:
                         img = Detector.annotate(img, detection, color)
                 else:
@@ -56,7 +54,7 @@ if mode == 'Image':
                 img_loc.image(img, channels='BGR')
 else:
     if mode == 'Demo':
-        video_path = 'Data/bib_detector_demo_edit.mp4'
+        video_path = 'Data/bib_detector_demo2_edited.mp4'
         video_file = open(video_path, 'rb')
         video_bytes = video_file.read()
 
@@ -87,11 +85,10 @@ else:
         width = int(cap.get(cv.CAP_PROP_FRAME_WIDTH))
         height = int(cap.get(cv.CAP_PROP_FRAME_HEIGHT))
         num_frames = cap.get(cv.CAP_PROP_FRAME_COUNT)
-        vid_out = cv.VideoWriter('../Data/output.mp4',fourcc, 25.0, (width,height))
+        vid_out = cv.VideoWriter('Data/output.mp4',fourcc, 25.0, (width,height))
 
         frames_complete = 0
         rank = []
-        #rbn_count = 0
         prev_rbn = None
         while cap.isOpened():
             ret, frame = cap.read()
@@ -122,7 +119,7 @@ else:
         vid_out.release()
 
         button_loc.text("Complete.  Press play to see annotated video.")
-        video_file = open('../Data/output.mp4', 'rb')
+        video_file = open('Data/output.mp4', 'rb')
         video_bytes = video_file.read()
         video_loc.video(video_bytes)
 

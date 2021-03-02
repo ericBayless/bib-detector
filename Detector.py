@@ -16,10 +16,22 @@ class Detector:
     """
     Create YOLO object detection model in OpenCV with a given config and weights.
     Use this model to make predictions.
+    
+    Attributes
+        classes (list): list of class names
+        net (obj): openCV network object
+        ln (obj): openCV layer names object
     """
     
     def __init__(self, cfg, wts, classes):
+        """Initialize detector object
         
+        Args
+            cfg (str): path to model config file
+            wts (str): path to model weights file
+            classes (list): list of class names
+        """
+
         self.classes = classes
         self.net = cv.dnn.readNetFromDarknet(cfg, wts)
         self.net.setPreferableBackend(cv.dnn.DNN_BACKEND_OPENCV)
@@ -29,7 +41,18 @@ class Detector:
         self.ln = [self.ln[i[0] - 1] for i in self.net.getUnconnectedOutLayers()]
         
     def detect(self, img, conf):
+        """
+        Make predictions and return classes and bounding boxes
         
+        Args
+            img (numpy array): image array from openCV .imread
+            conf (float): prediction confidence threshold
+            
+        Returns
+            List containing bounding box values and class names for detections
+            in the form [<class name>, [x, y, width, height]]
+        """
+
         #format image for detection
         blob = cv.dnn.blobFromImage(img, 1/255.0, (416, 416), swapRB=True, crop=False)
         
@@ -83,6 +106,19 @@ class Detector:
 
 
 def get_rbns(img, single=False):
+        """
+    Given an image return bib numbers and bib bounding boxes for detected bibs
+    
+    Args
+        img (numpy array): image array given by openCV .imread
+        single (bool): whether one or many bib detections will be
+            returned.  If true, return detection with largest bounding
+            box area.
+            
+    Returns
+        List of detected bib numbers and corresponding bounding boxes in
+        the format [<bib number>, [x, y, width, height]]
+    """
 
     # Instantiate detectors
     bd = Detector(bd_configPath, bd_weightsPath, bd_classes)
@@ -128,6 +164,19 @@ def get_rbns(img, single=False):
 
 
 def annotate(img, annot, color):
+    """
+    Add bib numbers and bib bounding boxes to an image
+    
+    Args
+        img (numpy array): image array of original from openCV .imread
+        annot (list): list of bib numbers and bounding boxes in the 
+            form [[<bib number>, [x, y, width, height]]]
+        color (array): RGB color array for annotation color
+        
+    Returns
+        Annotated image as numpy array
+    """
+    
     # draw bouding box on original image
     (x, y, w, h) = annot[1]
     annot_img = cv.rectangle(img,(x,y),(x+w,y+h),color,5)
