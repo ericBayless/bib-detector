@@ -52,7 +52,7 @@ project-3
 |       |__ Bib_detection_training_validation_orig.png
 |       |__ Bib_detection_training_validation.png
 |       |__ SVHN_training_validation.png
-|   |__ bib_detector.pdf
+|   |__ RBN_detector.pdf
 |__ Scratch
 |   |__ scratch work files
 |__ Detector.py
