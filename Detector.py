@@ -106,7 +106,7 @@ class Detector:
 
 
 def get_rbns(img, single=False):
-        """
+    """
     Given an image return bib numbers and bib bounding boxes for detected bibs
     
     Args

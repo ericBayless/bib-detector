@@ -9,8 +9,6 @@ import time
 
 # Bib bounding box color
 color = [252, 15, 192]
-# Initialize rank order list
-rank = []
 
 # App Title and Mode
 st.title('Race Bib Number Detector')
@@ -53,8 +51,9 @@ if mode == 'Image':
                 #display annotated image
                 img_loc.image(img, channels='BGR')
 else:
+
     if mode == 'Demo':
-        video_path = 'Data/bib_detector_demo2_edited.mp4'
+        video_path = 'Data/bib_detector_demo.mp4'
         video_file = open(video_path, 'rb')
         video_bytes = video_file.read()
 
@@ -85,7 +84,9 @@ else:
         width = int(cap.get(cv.CAP_PROP_FRAME_WIDTH))
         height = int(cap.get(cv.CAP_PROP_FRAME_HEIGHT))
         num_frames = cap.get(cv.CAP_PROP_FRAME_COUNT)
-        vid_out = cv.VideoWriter('Data/output.mp4',fourcc, 25.0, (width,height))
+        vid_out = cv.VideoWriter('Data/output.mp4', fourcc, 25.0, (width,height))
+        #outfile = tempfile.NamedTemporaryFile(delete=False)
+        #vid_out = cv.VideoWriter(outfile.name, fourcc, 25.0, (width,height))
 
         frames_complete = 0
         rank = []
@@ -120,6 +121,7 @@ else:
 
         button_loc.text("Complete.  Press play to see annotated video.")
         video_file = open('Data/output.mp4', 'rb')
+        #video_file = open(outfile.name, 'rb')
         video_bytes = video_file.read()
         video_loc.video(video_bytes)
 
