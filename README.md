@@ -3,7 +3,7 @@
 - [Executive Summary](#Executive-Summary)
 - [Conclusions](#Conclusions)
 - [File Directory](#File-Directory)
-- [Data Dictionary](#Data-Dictionary)
+- [Data Description](#Data-Description)
 - [Resources](#Resources)
 
 # Problem Statement
@@ -62,7 +62,7 @@ project-3
 |__ streamlit_app.py
 ```
 
-# Data Dictionary
+# Data Description
 #### Race Bib Number (RBNR) Dataset
 The dataset can be found [here](https://people.csail.mit.edu/talidekel/RBNR.html)
 
