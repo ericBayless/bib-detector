@@ -69,7 +69,9 @@ The dataset can be found [here](https://people.csail.mit.edu/talidekel/RBNR.html
 This image data is split into 3 sets.  Sets 1 and 2 were used to train a YOLOv4-tiny model to detect racing bibs, and set3 was used as validation for the full 2-step detector. 
 
 #### Street View House Number (SVHN) Dataset
-The dataset can be found [here]()
+The dataset can be found [here](http://ufldl.stanford.edu/housenumbers/)
+
+This dataset contains a set of full numbers split into train, test, and extra, as well as cropped digits with the same catagorization.  Only the train and test sets of the full numbers were used.  A YOLOv4-tiny model was retrained to detect digits using the training set, and validated against the test set. 
 
 # Resources
 #### Studies
