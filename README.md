@@ -46,7 +46,7 @@ project-3
 |           |__ SVHN3_custom-yolov4-tiny-detector.cfg
 |           |__ SVHN3_custom-yolov4-tiny-detector_best.weights
 |           |__ obj.names
-|   |__ bib_detector_demo_edit.mp4
+|   |__ bib_detector_demo.mp4
 |__ Presentation
 |   |__ Images
 |       |__ Bib_detection_training_validation_orig.png
