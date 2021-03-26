@@ -28,7 +28,7 @@ Given the limitations of the current data, the next steps will include gathering
 
 # File Directory
 ```
-project-3
+bib-detector
 |__ Code
 |   |__ 01_Preprocessing_SVHN.ipynb   
 |   |__ 02_SVHN_YOLOv4_tiny_Darknet_Roboflow.ipynb   
